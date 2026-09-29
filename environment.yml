@@ -1,0 +1,38 @@
+name: github-rag
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.11
+  - pip
+
+  - pip:
+      # LangChain
+      - langchain==0.3.27
+      - langchain-community==0.3.29
+      - langchain-core==0.3.78
+      - langchain-text-splitters==0.3.11
+      - langchain-chroma==0.2.6
+      - langchain-huggingface==0.3.1
+      
+      # Vector database
+      - chromadb==1.1.0
+
+      # Embeddings
+      - sentence-transformers==5.1.0
+
+      # LLM providers
+      - langchain-openai==0.3.35
+
+      # Environment variables
+      - python-dotenv==1.1.1
+
+      # Web interface
+      - streamlit==1.50.0
+
+      # Development / testing
+      - pytest==8.4.2
+
+      # Project
+      - -e .

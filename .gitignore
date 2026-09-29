@@ -1,0 +1,42 @@
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Editable installs
+pip-wheel-metadata/
+
+# Temporal python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+.env
+.env.*
+
+# Conda
+.conda/
+conda-meta/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# VsCode
+.vscode/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Vector databases indexes
+chroma/
+chroma_db/
+.faiss/

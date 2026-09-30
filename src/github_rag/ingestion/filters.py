@@ -7,21 +7,46 @@ and which directories should be excluded during repository traversal.
 
 from pathlib import PurePath
 
-# File extensions supported by the initial RAG implementation.
-# These formats are commonly used for source code, documentation,
-# configuration files, and SQL scripts.
-ALLOWED_EXTENSIONS = {
-    ".py",
-    ".md",
-    ".txt",
-    ".yaml",
-    ".yml",
-    ".json",
-    ".toml",
-    ".sql",
-    ".ipynb",
-    ".pdf"
+# File extensions supported by the RAG system
+
+CODE_EXTENSIONS = {
+    ".py", ".js", ".ts",
+    ".java", ".cpp", ".c",
+    ".go", ".rs", ".sql",
 }
+
+# Associated languages to detect notebooks code cells
+# in processing/notebook.py
+LANGUAGE_TO_EXTENSION = {
+    "python": ".py",
+    "javascript": ".js",
+    "typescript": ".ts",
+    "java": ".java",
+    "cpp": ".cpp",
+    "c": ".c",
+    "go": ".go",
+    "rust": ".rs",
+    "sql": ".sql",
+}
+
+
+MARKDOWN_EXTENSIONS = {".md"}
+
+TEXT_EXTENSIONS = {".txt"}
+
+STRUCTURED_EXTENSIONS = {
+    ".json", ".yaml", ".yml", ".toml"
+}
+
+NOTEBOOK_EXTENSIONS = {".ipynb"}
+
+ALLOWED_EXTENSIONS = (
+    CODE_EXTENSIONS
+    | MARKDOWN_EXTENSIONS
+    | TEXT_EXTENSIONS
+    | STRUCTURED_EXTENSIONS
+    | NOTEBOOK_EXTENSIONS
+)
 
 # Directories that should not be processed during repository ingestion.
 # They typically contain generated files, dependencies, virtual
@@ -35,6 +60,7 @@ IGNORED_DIRECTORIES = {
     "env",
     "dist",
     "build",
+    ".devcontainer"
 }
 
 

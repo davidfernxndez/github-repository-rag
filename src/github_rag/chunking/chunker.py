@@ -22,7 +22,7 @@ from .markdown import MarkdownChunker
 from .text import TextChunker
 
 # Import default chunking configuration
-from .chunkconfig import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP
+from .chunkConfig import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP
 
 
 class Chunker:

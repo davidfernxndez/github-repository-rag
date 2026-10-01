@@ -7,7 +7,7 @@ documents using a recursive character-based strategy.
 
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from .chunkconfig import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP
+from .chunkConfig import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP
 
 class TextChunker:
     """

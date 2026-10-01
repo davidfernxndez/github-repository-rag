@@ -15,7 +15,7 @@ from langchain_text_splitters import (
 )
 
 # Chunk global configuration
-from .chunkconfig import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP
+from .chunkConfig import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP
 
 # Markdown header levels used to identify document sections.
 MARKDOWN_HEADERS = [

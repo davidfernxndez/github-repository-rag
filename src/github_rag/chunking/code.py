@@ -12,7 +12,7 @@ from langchain_core.documents import Document
 from langchain_text_splitters import Language, RecursiveCharacterTextSplitter
 
 # Chunk global configuration
-from .chunkconfig import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP
+from .chunkConfig import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP
 
 # Map file extensions to the corresponding LangChain programming language.
 LANGUAGE_MAP = {
@@ -24,7 +24,6 @@ LANGUAGE_MAP = {
     ".c": Language.C,
     ".go": Language.GO,
     ".rs": Language.RUST,
-    ".sql": Language.SQL,
 }
 
 

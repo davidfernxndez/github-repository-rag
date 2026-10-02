@@ -54,8 +54,12 @@ class ChromaStore:
             )
 
         self.mode = mode
-        self.persist_directory = Path(persist_directory)
         self.collection_name = collection_name
+
+        if mode == "local":
+            self.persist_directory = Path(persist_directory)
+        else:
+            self.persist_directory = None
 
     def create(
         self,

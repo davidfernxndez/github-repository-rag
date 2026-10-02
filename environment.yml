@@ -23,8 +23,9 @@ dependencies:
       - sentence-transformers==5.1.0
 
       # LLM providers
-      - langchain-openai==0.3.35
-
+      - langchain-ollama==0.3.10
+      - langchain-groq==0.3.8
+      
       # Environment variables
       - python-dotenv==1.1.1
 

@@ -22,6 +22,7 @@ dependencies:
       # Embeddings
       - sentence-transformers==5.1.0
 
+  
       # LLM providers
       - langchain-ollama==0.3.10
       - langchain-groq==0.3.8

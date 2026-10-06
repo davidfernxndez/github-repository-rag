@@ -1,0 +1,78 @@
+[
+    {
+        "query": "¿What clustering method is used for diversity?",
+        "type": "semantic",
+        "relevant_chunks": ["scripts/AL_methods.py::15", "main.ipynb::cell_8::chunk_2"]
+    },
+    {
+        "query": "¿What is the configuration defined in the performance experiment?",
+        "type": "semantic",
+        "relevant_chunks": ["performance_experiment.ipynb::cell_3::chunk_0", "performance_experiment.ipynb::cell_4::chunk_0"]
+    },
+    {
+        "query": "Why isn't the dataset included in the repository?",
+        "type": "semantic",
+        "relevant_chunks": ["data/data_info.md::0"]
+    },
+    {
+        "query": "Explain the methods for plotting the results in scripts/plot_results.py",
+        "type": "filename",
+        "relevant_chunks": ["scripts/plot_results.py::1", "scripts/plot_results.py::5", "scripts/plot_results.py::6"]
+    },
+    {
+        "query": "How is uncertainty-based filtering performed?",
+        "type": "semantic",
+        "relevant_chunks": ["main.ipynb::cell_7::chunk_1", "scripts/AL_methods.py::10"]
+    },
+    {
+        "query": "What are the conclusions regarding the scalability of the solution?",
+        "type": "semantic",
+        "relevant_chunks": ["main.ipynb::cell_18::chunk_0"]
+    },
+    {
+        "query": "What are the conclusions regarding the scalability of the solution?",
+        "type": "semantic",
+        "relevant_chunks": ["main.ipynb::cell_15::chunk_0","main.ipynb::cell_16::chunk_0"]
+    },
+    {
+        "query": "How is the instance closest to each cluster centroid selected?",
+        "type": "semantic",
+        "relevant_chunks": ["main.ipynb::cell_8::chunk_4"]
+    },
+    {
+        "query": "Which MLlib evaluator is used to define the metric in scripts/AL_methods.py?",
+        "type": "filename",
+        "relevant_chunks": ["scripts/AL_methods.py::9"]
+    },
+    {
+        "query": "How many Active Learning iterations are executed in the scalability experiment of the script AL_scalability.py?",
+        "type": "filename",
+        "relevant_chunks": ["scripts/AL_scalability.py::1", "scripts/AL_scalability.py::10"]
+    },
+    {
+        "query": "How could the performance results of Active Learning be improved?",
+        "type": "semantic",
+        "relevant_chunks": ["main.ipynb::cell_12::chunk_1"]
+    },
+    {
+        "query": "What are the configurations for each experiment performed in scalability_experiment.ipynb?",
+        "type": "filename",
+        "relevant_chunks": ["scalability_experiments.ipynb::cell_5::chunk_0", "scalability_experiments.ipynb::cell_7::chunk_0",
+                            "scalability_experiments.ipynb::cell_9::chunk_0"]
+    },
+    {
+        "query": "What are the differences between the performance experiment conducted in performance_experiment.ipynb and those conducted in scalability_experiments.ipynb?",
+        "type": "filename",
+        "relevant_chunks": ["performance_experiment.ipynb::cell_3::chunk_0", "scalability_experiments.ipynb::cell_3::chunk_0"]
+    },
+    {
+        "query": "How many samples were used for the 100%-sized reference dataset?",
+        "type": "semantic",
+        "relevant_chunks": ["main.ipynb::cell_9::chunk_1"]
+    },
+    {
+        "query": "¿What is the dataset used in the experiment",
+        "type": "semantic",
+        "relevant_chunks": ["README.md::10"]
+    }
+]

@@ -156,6 +156,25 @@ class ChromaStore:
             collection_name=collection_name,
             client=client,
         )
+
+    def load(self) -> Chroma:
+        """Load an existing local vector store."""
+
+        if self.mode != "local":
+            raise ValueError(
+                "Only local vector stores can be loaded."
+            )
+
+        client = chromadb.PersistentClient(
+            path=str(self.persist_directory)
+        )
+
+        self.vector_store = Chroma(
+            collection_name=self.collection_name,
+            client=client,
+        )
+
+        return self.vector_store
     
     def count(self) -> int:
         """Return the number of documents stored in the vector database.
@@ -170,13 +189,17 @@ class ChromaStore:
         return self.vector_store._collection.count()
 
 
-    def get(self, limit: int | None = None) -> dict:
+    def get(
+        self,
+        limit: int | None = None,
+        filter: dict | None = None,
+    ) -> dict:
         """
         Retrieve documents and metadata from the vector database.
 
         Args:
             limit: Maximum number of stored documents to retrieve.
-                If ``None``, all documents are retrieved.
+            filter: Optional metadata filter.
 
         Returns:
             Dictionary containing the retrieved collection data.
@@ -184,7 +207,10 @@ class ChromaStore:
         if self.vector_store is None:
             raise RuntimeError("The vector store has not been created yet.")
 
-        return self.vector_store._collection.get(limit=limit)
+        return self.vector_store._collection.get(
+            limit=limit,
+            where=filter,
+        )
 
 
     def get_unique_file_paths(self) -> list[str]:

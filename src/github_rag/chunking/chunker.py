@@ -84,11 +84,32 @@ class Chunker:
             # Keep documents unchanged when no chunking strategy
             # is available for their file type.
             if chunker is None:
+                document.metadata["chunk_index"] = 0
+                document.metadata["chunk_id"] = (
+                    f"{document.metadata['file_path']}::0"
+                )
                 chunks.append(document)
                 continue
 
-            # Apply the selected chunker to the document.
-            chunks.extend(chunker.chunk(document))
+            # Apply the selected chunker.
+            document_chunks = chunker.chunk(document)
+
+            # Assign a local index to each chunk.
+            for chunk_index, chunk in enumerate(document_chunks):
+                chunk.metadata["chunk_index"] = chunk_index
+
+                if "cell_index" in chunk.metadata:
+                    chunk.metadata["chunk_id"] = (
+                        f"{chunk.metadata['file_path']}"
+                        f"::cell_{chunk.metadata['cell_index']}"
+                        f"::chunk_{chunk_index}"
+                    )
+                else:
+                    chunk.metadata["chunk_id"] = (
+                        f"{chunk.metadata['file_path']}::{chunk_index}"
+                    )
+
+            chunks.extend(document_chunks)
 
         return chunks
 

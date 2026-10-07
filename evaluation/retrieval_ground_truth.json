@@ -2,7 +2,7 @@
     {
         "query": "¿What clustering method is used for diversity?",
         "type": "semantic",
-        "relevant_chunks": ["scripts/AL_methods.py::15", "main.ipynb::cell_8::chunk_2"]
+        "relevant_chunks": ["scripts/AL_methods.py::15", "main.ipynb::cell_8::chunk_2", "main.ipynb::cell_8::chunk_3"]
     },
     {
         "query": "¿What is the configuration defined in the performance experiment?",
@@ -30,11 +30,6 @@
         "relevant_chunks": ["main.ipynb::cell_18::chunk_0"]
     },
     {
-        "query": "What are the conclusions regarding the scalability of the solution?",
-        "type": "semantic",
-        "relevant_chunks": ["main.ipynb::cell_15::chunk_0","main.ipynb::cell_16::chunk_0"]
-    },
-    {
         "query": "How is the instance closest to each cluster centroid selected?",
         "type": "semantic",
         "relevant_chunks": ["main.ipynb::cell_8::chunk_4"]
@@ -55,12 +50,6 @@
         "relevant_chunks": ["main.ipynb::cell_12::chunk_1"]
     },
     {
-        "query": "What are the configurations for each experiment performed in scalability_experiment.ipynb?",
-        "type": "filename",
-        "relevant_chunks": ["scalability_experiments.ipynb::cell_5::chunk_0", "scalability_experiments.ipynb::cell_7::chunk_0",
-                            "scalability_experiments.ipynb::cell_9::chunk_0"]
-    },
-    {
         "query": "What are the differences between the performance experiment conducted in performance_experiment.ipynb and those conducted in scalability_experiments.ipynb?",
         "type": "filename",
         "relevant_chunks": ["performance_experiment.ipynb::cell_3::chunk_0", "scalability_experiments.ipynb::cell_3::chunk_0"]
@@ -74,5 +63,40 @@
         "query": "¿What is the dataset used in the experiment",
         "type": "semantic",
         "relevant_chunks": ["README.md::10"]
+    },
+    {
+        "query": "How is the dataset preprocessed before training the model?",
+        "type": "semantic",
+        "relevant_chunks": ["scripts/AL_methods.py::1"]
+    },
+    {
+        "query": "How is data leakage prevented during feature standardization?",
+        "type": "semantic",
+        "relevant_chunks": ["scripts/AL_methods.py::5"]
+    },
+    {
+        "query": "How is the instance closest to each cluster centroid selected?",
+        "type": "semantic",
+        "relevant_chunks": ["scripts/AL_methods.py::19"]
+    },
+    {
+        "query": "How is the instance closest to each cluster centroid selected?",
+        "type": "semantic",
+        "relevant_chunks": ["scripts/AL_methods.py::19"]
+    },
+    {
+        "query": "How is the code of the developed solution structured?",
+        "type": "semantic",
+        "relevant_chunks": ["main.ipynb::cell_4::chunk_1"]
+    },
+    {
+        "query": "What are the objective of performance experiment vs scalability experiment?",
+        "type": "semantic",
+        "relevant_chunks": ["main.ipynb::cell_9::chunk_2","main.ipynb::cell_9::chunk_3"]
+    },
+    {
+        "query": "Where is broadcast performed in scripts/AL_methods.py?",
+        "type": "filename",
+        "relevant_chunks": ["scripts/AL_methods.py::21", "scripts/AL_methods.py::18"]
     }
 ]

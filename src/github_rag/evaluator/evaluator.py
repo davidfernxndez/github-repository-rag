@@ -14,7 +14,7 @@ from ragas.llms import llm_factory
 from ragas.metrics.collections import AnswerRelevancy, Faithfulness
 
 
-DEFAULT_JUDGE_MODEL = "openai/gpt-oss-20b"
+DEFAULT_JUDGE_MODEL = "openai/gpt-oss-120b"
 DEFAULT_EMBEDDING_MODEL = (
     "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 )
@@ -47,16 +47,17 @@ class RAGEvaluator:
         # Create the OpenAI asyn client
         judge_client = AsyncOpenAI(
             api_key=groq_api_key,
-            base_url=GROQ_BASE_URL,
+            base_url="https://api.groq.com/openai/v1",
         )
 
-        # Get the LLM model
         self.judge_llm = llm_factory(
             model=judge_model,
             provider="openai",
             client=judge_client,
+            max_tokens=4096,
         )
 
+        
         # Get the embeddings model
         self.judge_embeddings = HuggingFaceEmbeddings(
             model=embedding_model

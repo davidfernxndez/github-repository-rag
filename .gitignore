@@ -39,3 +39,6 @@ htmlcov/
 chroma/
 chroma_db/
 .faiss/
+
+# Streamlit
+.streamlit

@@ -29,15 +29,13 @@ class LLMGenerator:
     # Use deterministic generation for RAG responses.
     TEMPERATURE = 0.0
 
-    # Environment variable containing the Groq API key.
-    GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-
-    def __init__(self, mode: str):
+    def __init__(self, mode: str, api_key: str | None = None):
         """
         Initialize the LLM generator.
 
         Args:
             mode: LLM execution mode. It must be either "local" or "API".
+            api_key: Groq API key provided by the user in streamlit.
 
         Raises:
             ValueError: If the selected mode is not supported or if the
@@ -49,6 +47,7 @@ class LLMGenerator:
             )
 
         self.mode = mode
+        self.api_key = api_key or os.getenv("GROQ_API_KEY")
         self.llm = self._load_llm()
 
     def _load_llm(self) -> BaseChatModel:
@@ -67,7 +66,7 @@ class LLMGenerator:
                 temperature=self.TEMPERATURE,
             )
 
-        if not self.GROQ_API_KEY:
+        if not self.api_key:
             raise ValueError(
                 "GROQ_API_KEY environment variable is required "
                 "when using API mode."
@@ -75,7 +74,7 @@ class LLMGenerator:
 
         return ChatGroq(
             model=self.API_MODEL,
-            api_key=self.GROQ_API_KEY,
+            api_key=self.api_key,
             temperature=self.TEMPERATURE,
         )
 

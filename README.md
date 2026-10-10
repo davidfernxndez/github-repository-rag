@@ -98,10 +98,12 @@ The system is evaluated at two levels: **retrieval quality** and **end-to-end RA
 
 The adaptive retriever is compared against a semantic search baseline using a manually curated ground-truth dataset of $20$ questions with their expected relevant chunks.
 
-| Retriever | Recall@5 | MRR@5 | AP@5 |
-|:--|--:|--:|--:|
-| Baseline | 0.783 | 0.608 | 0.535 |
-| **Adaptive** | **0.842** | **0.785** | **0.666** |
+| Query Type | Retriever | Recall@5 | MRR@5 | AP@5 |
+|:--|:--|--:|--:|--:|
+| File(s) reference | Baseline | 0.361 | 0.153 | 0.110 |
+| | **Adaptive** | **0.694** | **0.722** | **0.565** |
+| General | Baseline | 0.857 | 0.750 | 0.655 |
+| | **Adaptive** | **0.869** | **0.800** | **0.679** |
 
 The results, analyzed in detail in [`07_Retrieval_evaluation.ipynb`](notebooks/07_Retrieval_evaluation.ipynb), show larger improvements for queries referencing specific repository files, where metadata filtering enhances both the coverage and ranking of relevant chunks. For general queries, the gains are smaller but consistent, indicating that MMR improves retrieval diversity without compromising retrieval performance.
 
@@ -116,3 +118,52 @@ The complete RAG pipeline is evaluated using *RAGAS* with an **LLM-as-a-judge** 
 
 The results, analyzed in detail in [`10_RAG_evaluation.ipynb`](notebooks/10_RAG_evaluation.ipynb), suggest that generated answers are generally well grounded in the retrieved context, while answer relevance remains more variable. Manual inspection also highlights limitations of LLM-as-a-judge evaluation, particularly for open-ended queries where useful answers may receive lower relevance scores than expected.
 
+## Installation & Usage
+
+### 1. Environment Setup
+
+Clone the repository and create the Conda environment using the provided [`environment.yml`](environment.yml) file, which specifies the Python version and project dependencies.
+
+```bash
+git clone https://github.com/davidfernxndez/github-repository-rag.git
+cd github-rag
+
+conda env create -f environment.yml
+conda activate github-rag
+```
+
+### 2. LLM Configuration
+
+The `LLMGenerator` class, defined in [`src/github_rag/LLM_generation/generator.py`](src/github_rag/LLM_generation/generator.py), supports two inference modes through its `mode` parameter: `local` and `API`.
+
+#### Local Inference with Ollama
+
+[Ollama](https://ollama.com/download) enables local inference without requiring an external LLM API key.
+
+1. Download and install *Ollama* for your operating system from the [official download page](https://ollama.com/download).
+2. Download the default model used by the system:
+
+   ```bash
+   ollama pull qwen3:1.7b
+   ```
+
+To use a different model, download it through *Ollama* and update the model configuration in `LLMGenerator`.
+
+#### API Inference with Groq
+
+Groq provides hosted LLM inference, making it suitable for deployment environments with limited computational resources.
+
+1. Create an API key through the [Groq Console](https://console.groq.com/).
+2. Configure the key in a `.env` file using the variable shown in [`.env.example`](.env.example):
+
+   ```dotenv
+   GROQ_API_KEY=your_groq_api_key
+   ```
+
+API usage is subject to Groq's rate limits and account quotas.
+
+> **Note:** The complete RAG evaluation uses **RAGAS** with an **LLM-as-a-judge** approach. Due to its computational cost, the evaluator in [`src/github_rag/evaluator/`](src/github_rag/evaluator/) uses Groq for judge-model inference instead of a locally hosted Ollama model.
+
+## License
+
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for the full license text.

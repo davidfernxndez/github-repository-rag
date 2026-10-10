@@ -88,5 +88,15 @@
         "query": "Where is broadcast performed in scripts/AL_methods.py?",
         "type": "filename",
         "relevant_chunks": ["scripts/AL_methods.py::21", "scripts/AL_methods.py::18"]
+    },
+    {
+        "query": "What is broadcast used for in random selection strategy?",
+        "type": "semantic",
+        "relevant_chunks": ["scripts/AL_methods.py::22", "scripts/AL_methods.py::24"]
+    },
+    {
+        "query": "What is the Scale Up configuration defined in scalability_experiments.ipynb?",
+        "type": "filename",
+        "relevant_chunks": ["scalability_experiments.ipynb::cell_9::chunk_0"]
     }
 ]

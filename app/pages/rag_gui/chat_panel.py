@@ -1,48 +1,74 @@
+"""
+This module manages the conversation history and coordinates retrieval,
+prompt construction, and answer generation. It also handles processing errors
+and displays user and assistant messages through Streamlit.
+"""
+
 import streamlit as st
 
+from components.chat_composer import render_chat_composer
 from github_rag.prompt_engineering.prompt_builder import build_prompt
 
+
 def render_chat_panel(llm_generator):
-    """Render the chat interface and handle RAG interactions."""
+    """Render the repository chat interface and handle user queries."""
 
     st.subheader("Chat with your repository")
 
-    # Initialize conversation history
+    # Initialize the conversation history on the first render.
+    # Streamlit session state preserves messages across script reruns.
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = [
             {
                 "role": "assistant",
                 "content": (
-                    "Welcome to the GitHub Repository RAG Assistant!\n\n"
+                    "Welcome to the GitHub Repository RAG Assistant!\n"
                     "Ingest a public GitHub repository and ask questions "
                     "about its source code, documentation, and structure."
                 ),
             }
         ]
 
-    # Display conversation history
-    with st.container(height=400, border=True):
+    # Retrieve the repository-specific components and metadata from session state.
+    # The retriever provides access to indexed repository content, while
+    # available_files supports file references in the chat composer.
+    retriever = st.session_state.get("retriever")
+    available_files = st.session_state.get("available_files") or []
+
+    # Create a fixed-height, scrollable container for the conversation.
+    conversation = st.container(height=500, border=True)
+
+    # Render all previously stored messages in chronological order.
+    # Each message is displayed according to its role (user or assistant).
+    with conversation:
         for message in st.session_state.chat_history:
             with st.chat_message(message["role"]):
                 st.markdown(message["content"])
 
-    # User input
-    query = st.chat_input(
-        "Ask a question about the repository...",
-        key="rag_chat_input",
-    )
+    # Render the custom message composer and retrieve its submission payload.
+    # The payload contains the user's text and any explicitly selected files.
+    submitted = render_chat_composer(available_files)
 
+    # Stop processing when the user has not submitted a message.
+    if not submitted:
+        return
+
+    # Extract and normalize the submitted query by removing surrounding whitespace.
+    query = submitted.get("text", "").strip()
+
+    # Ignore empty or whitespace-only messages.
     if not query:
         return
 
-    # Check whether a repository has been ingested
-    retriever = st.session_state.get("retriever")
-    available_files = st.session_state.get("available_files")
-
-    if retriever is None or available_files is None:
-        st.warning("Please ingest a GitHub repository before asking questions.")
+    # Ensure a repository has been ingested and its retriever is available.
+    # Without it, the application cannot retrieve relevant context.
+    if retriever is None:
+        st.warning(
+            "Please ingest a GitHub repository before asking questions."
+        )
         return
 
+    # Ensure an LLM generator is configured before attempting answer generation.
     if llm_generator is None:
         st.warning(
             "No LLM is configured. Please configure your Groq API Key "
@@ -50,53 +76,78 @@ def render_chat_panel(llm_generator):
         )
         return
 
-    # Display the user's question
-    with st.chat_message("user"):
-        st.markdown(query)
-
-    # Add the question to the conversation history
+    # Store the user's query in the persistent conversation history.
     st.session_state.chat_history.append(
         {"role": "user", "content": query}
     )
 
-    # Run the RAG pipeline
+    # Display the submitted message immediately in the conversation container.
+    with conversation:
+        with st.chat_message("user"):
+            st.markdown(query)
+
     try:
-        with st.chat_message("assistant"):
-            with st.spinner("Searching the repository and generating an answer..."):
+        # Indicate that retrieval and answer generation are in progress.
+        with st.spinner(
+            "Searching the repository and generating an answer..."
+        ):
+            # Retrieve repository chunks relevant to the query.
+            retrieval_chunks = retriever.retrieve(
+                query,
+                available_files,
+            )
 
-                # 1. Retrieve relevant document chunks
-                retrieval_chunks = retriever.retrieve(
-                    query,
-                    available_files,
+            # Handle queries for which retrieval returns no relevant context.
+            # Avoid calling the LLM when there is no repository content to use.
+            if not retrieval_chunks:
+                response = (
+                    "I couldn't find relevant information in the "
+                    "repository to answer your question."
                 )
+            else:
+                # Build a prompt containing the retrieved context and user query.
+                prompt = build_prompt(retrieval_chunks, query)
 
-                if not retrieval_chunks:
-                    response = (
-                        "I couldn't find relevant information in the "
-                        "repository to answer your question."
-                    )
-                else:
-                    # 2. Build the prompt using retrieved context
-                    prompt = build_prompt(retrieval_chunks, query)
+                # Generate the answer using the configured language model.
+                response = llm_generator.generate(prompt)
 
-                    # 3. Generate the answer with the LLM
-                    response = llm_generator.generate(prompt)
+                # Provide a fallback message if the generator returns no content.
+                if not response:
+                    response = "The LLM did not return a response."
 
-                    if not response:
-                        response = "The LLM did not return a response."
-
-            # 4. Display the answer in Markdown
-            st.markdown(response)
-
-        # Save the assistant response
-        st.session_state.chat_history.append(
-            {"role": "assistant", "content": response}
-        )
+    except RuntimeError as e:
+        # Handle known LLM service errors separately to provide actionable feedback.
+        if str(e) == "LLM_RATE_LIMIT":
+            response = (
+                "The AI service has reached a usage limit. "
+                "Please try again later or check your API key usage."
+            )
+        elif str(e) == "LLM_CONTEXT_LIMIT":
+            response = (
+                "Your question requires more context than the model "
+                "can process. Please try a more specific question."
+            )
+        else:
+            # Use a generic fallback for other runtime errors.
+            response = (
+                "An error occurred while processing your question. "
+                "Please check your API key and try again."
+            )
 
     except Exception:
-        st.error(
+        # Prevent unexpected processing errors from interrupting the chat flow.
+        # Return a user-friendly message without exposing internal error details.
+        response = (
             "An error occurred while processing your question. "
-            "Please try again."
+            "Please check your API key and try again."
         )
 
-        # Keep the question in history but allow the user to retry
+    # Persist the assistant's response so it remains available on subsequent reruns.
+    st.session_state.chat_history.append(
+        {"role": "assistant", "content": response}
+    )
+
+    # Render the generated answer in the conversation container.
+    with conversation:
+        with st.chat_message("assistant"):
+            st.markdown(response)

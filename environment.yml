@@ -33,7 +33,7 @@ dependencies:
       - python-dotenv==1.1.1
 
       # Web interface
-      - streamlit==1.50.0
+      - streamlit==1.51.0
 
       # Development / testing
       - pytest==8.4.2

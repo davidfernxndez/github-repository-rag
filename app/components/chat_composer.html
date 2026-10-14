@@ -1,0 +1,26 @@
+<!-- Main container for the chat message composer. -->
+<div class="composer-wrapper">
+
+    <!-- Container for displaying repository file suggestions. -->
+    <div id="suggestions" class="suggestions" hidden></div>
+
+    <!-- Message input area and send button. -->
+    <div class="composer">
+        <textarea
+            id="message"
+            rows="1"
+            placeholder="Ask anything about your repository..."
+            aria-label="Write a message"
+        ></textarea>
+
+        <!-- Sends the message entered by the user. -->
+        <button id="send" type="button" aria-label="Send message">
+            <span aria-hidden="true">↑</span>
+        </button>
+    </div>
+
+    <!-- Hint explaining how to reference repository files. -->
+    <div class="composer-hint">
+        Use <kbd>@</kbd> to reference repository files
+    </div>
+</div>

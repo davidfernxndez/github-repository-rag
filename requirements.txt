@@ -1,0 +1,25 @@
+# LangChain
+langchain==0.3.27
+langchain-community==0.3.29
+langchain-core==0.3.78
+langchain-text-splitters==0.3.11
+langchain-chroma==0.2.6
+langchain-huggingface==0.3.1
+
+# Vector database
+chromadb==1.1.0
+
+# Embeddings
+sentence-transformers==5.1.0
+
+# LLM provider
+langchain-groq==0.3.8
+
+# Environment variables
+python-dotenv==1.1.1
+
+# Web interface
+streamlit==1.50.0
+
+# Project package
+-e .

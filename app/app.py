@@ -30,8 +30,7 @@ def main():
             render_loading_screen()
 
     try:
-        embedding_model, llm_generator = initialize_resources()
-
+        embedding_model = initialize_resources()
         st.session_state["resources_initialized"] = True
 
     except Exception:
@@ -64,7 +63,7 @@ def main():
     # --------------------------------------------------
 
     if st.session_state.section == "RAG Assistant":
-        render_rag_gui(embedding_model, llm_generator)
+        render_rag_gui(embedding_model)
 
 
 if __name__ == "__main__":

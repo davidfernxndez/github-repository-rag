@@ -8,9 +8,9 @@ import streamlit as st
 
 from components.chat_composer import render_chat_composer
 from github_rag.prompt_engineering.prompt_builder import build_prompt
+from src_app.api_key_management import can_use_api_key
 
-
-def render_chat_panel(llm_generator):
+def render_chat_panel():
     """Render the repository chat interface and handle user queries."""
 
     st.subheader("Chat with your repository")
@@ -69,6 +69,7 @@ def render_chat_panel(llm_generator):
         return
 
     # Ensure an LLM generator is configured before attempting answer generation.
+    llm_generator = st.session_state.get("llm_generator")
     if llm_generator is None:
         st.warning(
             "No LLM is configured. Please configure your Groq API Key "
@@ -76,6 +77,15 @@ def render_chat_panel(llm_generator):
         )
         return
 
+    # Check whether API key requests are available.
+    if not can_use_api_key():
+        st.warning(
+            "The free request limit has been reached. "
+            "Please configure your own Groq API key "
+            "to continue using the assistant."
+        )
+        return
+    
     # Store the user's query in the persistent conversation history.
     st.session_state.chat_history.append(
         {"role": "user", "content": query}
@@ -110,6 +120,14 @@ def render_chat_panel(llm_generator):
 
                 # Generate the answer using the configured language model.
                 response = llm_generator.generate(prompt)
+
+                # Count successful requests made with the default API key.
+                if st.session_state.llm_source == "default":
+                    st.session_state.default_counter += 1
+
+                # Provide a fallback message if the generator returns no content.
+                if not response:
+                    response = "The LLM did not return a response."
 
                 # Provide a fallback message if the generator returns no content.
                 if not response:

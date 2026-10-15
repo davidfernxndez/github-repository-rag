@@ -14,21 +14,20 @@ from .repository_panel import render_repository_panel
 from .api_key_panel import render_api_key_panel
 from .chat_panel import render_chat_panel
 
-def render_rag_gui(embedding_model, llm_generator):
+def render_rag_gui(embedding_model):
     """Render the complete RAG Assistant interface."""
 
-    # 1. Header: title, subtitle and contact information
+    # Header: title, subtitle and contact information
     render_header()
 
-    # 2. Repository ingestion and API Key configuration
-    repository_col, api_key_col = st.columns([3, 1], gap="large")
+    # Repository ingestion and API Key configuration
+    repository_col, api_key_col = st.columns([2, 1])
 
     with repository_col:
         render_repository_panel(embedding_model=embedding_model)
 
     with api_key_col:
-        #render_api_key_panel()
-        print("TO DO")
+        render_api_key_panel()
 
-    # 3. Chat interface
-    render_chat_panel(llm_generator)
+    # Chat interface
+    render_chat_panel()

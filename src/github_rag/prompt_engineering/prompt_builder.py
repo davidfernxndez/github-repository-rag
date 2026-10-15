@@ -66,10 +66,10 @@ def build_prompt(documents: list[Document], query: str) -> str:
     {query}
 
     Instructions:
-    - Base your answer on the relevant retrieved context.
-    - If the context does not contain enough information, explicitly state that
-    rather than guessing.
-    - Cite at the end the source file(s) used.
+    - Answer only questions related to the repository, using the relevant retrieved context.
+    - If the user's question is unrelated to the repository, explicitly state that the
+    question is not related to the repository and that you can only answer questions about it.
+    - Cite at the end the source file(s) used to answer repository-related questions.
     - Format each citation as a Markdown link using the file name as the link text:
     Source: [<File_name>](<Source>)
     """

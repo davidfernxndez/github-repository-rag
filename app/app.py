@@ -1,10 +1,9 @@
-
 import streamlit as st
 
 from pages.rag_gui import render_rag_gui
 from pages.loading_screen import render_loading_screen
 from utils.resources import initialize_resources
-
+from styles import load_custom_styles
 
 def main():
     # --------------------------------------------------
@@ -19,9 +18,9 @@ def main():
     )
 
     # --------------------------------------------------
-    # Resource initialization
+    # Resource initialization and CSS styles
     # --------------------------------------------------
-
+    load_custom_styles()
     loading_screen = st.empty()
 
     # Show the loading screen once per user session.

@@ -26,7 +26,11 @@ def render_api_key_panel():
     llm_generator = st.session_state.get("llm_generator")
     llm_source = st.session_state.get("llm_source", "default")
 
-    st.subheader("GROQ API KEY CONFIGURATION")
+    st.subheader("API Key")
+
+    st.caption(
+        "Configure your Groq API key to manage your own API usage."
+    )
 
     # Group the API status and configuration controls into a bordered panel.
     with st.container(border=True):

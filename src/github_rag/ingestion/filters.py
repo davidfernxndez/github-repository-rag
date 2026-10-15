@@ -13,6 +13,7 @@ CODE_EXTENSIONS = {
     ".py", ".js", ".ts",
     ".java", ".cpp", ".c",
     ".go", ".rs", ".sql",
+    ".html", ".scala", ".rb",
 }
 
 # Associated languages to detect notebooks code cells
@@ -27,8 +28,10 @@ LANGUAGE_TO_EXTENSION = {
     "go": ".go",
     "rust": ".rs",
     "sql": ".sql",
+    "html": ".html",
+    "scala": ".scala",
+    "ruby": ".rb",
 }
-
 
 MARKDOWN_EXTENSIONS = {".md"}
 

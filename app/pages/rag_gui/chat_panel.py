@@ -12,8 +12,22 @@ from src_app.api_key_management import can_use_api_key
 
 def render_chat_panel():
     """Render the repository chat interface and handle user queries."""
+    
+    st.markdown(
+        """
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 28px;">💬</span>
+            <h2 style="margin: 0; padding: 0; font-size: 1.6rem;">
+                Chat with the RAG Assistant
+            </h2>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
-    st.subheader("Chat with your repository")
+    st.caption(
+        "Ask questions about the repository and explore its source code."
+    )
 
     # Initialize the conversation history on the first render.
     # Streamlit session state preserves messages across script reruns.
@@ -22,9 +36,11 @@ def render_chat_panel():
             {
                 "role": "assistant",
                 "content": (
-                    "Welcome to the GitHub Repository RAG Assistant!\n"
-                    "Ingest a public GitHub repository and ask questions "
-                    "about its source code, documentation, and structure."
+                    "Welcome to the **GitHub Repository RAG Assistant**!\n\n"
+                    "To get started:\n"
+                    "- Ingest a public GitHub repository using the panel above.\n"
+                    "- Ask questions about its source code, documentation, and structure.\n"
+                    "- Use `@file_path` to reference specific files and provide context."
                 ),
             }
         ]

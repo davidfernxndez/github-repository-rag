@@ -80,12 +80,12 @@ def _render_completed_ingestion():
 
     # Recreate the collapsed status panel with the completed progress.
     with st.status(
-        "Repository ingested successfully!",
+        "Repository ready for questions.",
         state="complete",
         expanded=False,
     ):
         st.progress(1.0)
-        st.caption("All ingestion stages completed successfully.")
+        st.caption("The repository has been indexed successfully. You can now ask questions about its codebase.")
 
         stages_panel = st.empty()
         _render_completed_stages(stages_panel)
@@ -104,9 +104,11 @@ def _reset_repository_state():
         {
             "role": "assistant",
             "content": (
-                "Welcome to the GitHub Repository RAG Assistant!\n"
-                "Ingest a public GitHub repository and ask questions "
-                "about its source code, documentation, and structure."
+                "Welcome to the **GitHub Repository RAG Assistant**!\n\n"
+                "To get started:\n"
+                "- Ingest a public GitHub repository using the panel above.\n"
+                "- Ask questions about its source code, documentation, and structure.\n"
+                "- Use `@file_path` to reference specific files and provide context."
             ),
         }
     ]
@@ -151,13 +153,13 @@ def _ingest_repository_with_progress(repository_url, embedding_model):
         # Mark all stages as completed after successful ingestion.
         progress_bar.progress(1.0)
         progress_text.caption(
-            "All ingestion stages completed successfully."
+            "The repository has been indexed successfully. You can now ask questions about its codebase."
         )
         _render_completed_stages(stages_panel)
 
         # Collapse the status panel and display the successful completion state.
         status.update(
-            label="Repository ingested successfully!",
+            label="Repository ready for questions.",
             state="complete",
             expanded=False,
         )
@@ -170,10 +172,18 @@ def render_repository_panel(embedding_model):
 
     st.subheader("Repository")
 
+    st.caption(
+        "Connect a public GitHub repository to explore its codebase."
+    )
+
     with st.form("repository_form"):
         repository_url = st.text_input(
-            "Please enter a public GitHub repository URL.",
+            "GitHub repository URL:",
             placeholder="https://github.com/owner/repository",
+            help=(
+                "Enter the URL of a public GitHub repository "
+                "you want to analyze."
+            ),
         )
         submitted = st.form_submit_button(
             "Ingest repository",
@@ -210,4 +220,5 @@ def render_repository_panel(embedding_model):
         st.session_state["ingestion_completed"] = True
 
     except Exception as error:
-        st.error(f"Repository ingestion failed: {error}")
+        st.error("Repository ingestion failed.")
+        st.caption(str(error))

@@ -24,6 +24,9 @@ LANGUAGE_MAP = {
     ".c": Language.C,
     ".go": Language.GO,
     ".rs": Language.RUST,
+    ".html": Language.HTML,
+    ".scala": Language.SCALA,
+    ".rb": Language.RUBY,
 }
 
 

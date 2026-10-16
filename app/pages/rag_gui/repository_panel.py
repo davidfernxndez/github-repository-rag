@@ -9,6 +9,7 @@ from src_app.repository_ingestion import (
     ingest_repository,
 )
 
+from styles.icons import REPOSITORY_HEADER
 
 def _render_stages(stages_panel, active_stage):
     """Display completed, active, and pending ingestion stages."""
@@ -170,7 +171,7 @@ def _ingest_repository_with_progress(repository_url, embedding_model):
 def render_repository_panel(embedding_model):
     """Render the repository ingestion form and manage its state."""
 
-    st.subheader("Repository")
+    st.markdown(REPOSITORY_HEADER, unsafe_allow_html=True)
 
     st.caption(
         "Connect a public GitHub repository to explore its codebase."

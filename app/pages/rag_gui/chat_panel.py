@@ -9,21 +9,12 @@ import streamlit as st
 from components.chat_composer import render_chat_composer
 from github_rag.prompt_engineering.prompt_builder import build_prompt
 from src_app.api_key_management import can_use_api_key
+from styles.icons import CHAT_HEADER
 
 def render_chat_panel():
     """Render the repository chat interface and handle user queries."""
     
-    st.markdown(
-        """
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 28px;">💬</span>
-            <h2 style="margin: 0; padding: 0; font-size: 1.6rem;">
-                Chat with the RAG Assistant
-            </h2>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    st.markdown(CHAT_HEADER, unsafe_allow_html=True)
 
     st.caption(
         "Ask questions about the repository and explore its source code."

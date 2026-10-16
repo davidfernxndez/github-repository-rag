@@ -12,6 +12,7 @@ from src_app.api_key_management import (
     get_default_request_remaining,
 )
 
+from styles.icons import API_KEY_HEADER
 
 def render_api_key_panel():
     """Render the Groq API configuration panel."""
@@ -26,7 +27,7 @@ def render_api_key_panel():
     llm_generator = st.session_state.get("llm_generator")
     llm_source = st.session_state.get("llm_source", "default")
 
-    st.subheader("API Key")
+    st.markdown(API_KEY_HEADER, unsafe_allow_html=True)
 
     st.caption(
         "Configure your Groq API key to manage your own API usage."

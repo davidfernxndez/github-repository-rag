@@ -12,8 +12,21 @@ def render_header():
         """
         <div style="display: flex; align-items: center; gap: 16px;
                     margin-bottom: 12px;">
-            <div style="font-size: 46px; line-height: 1;">
-                <span style="color: #60A5FA;">&lt;/&gt;</span>
+            <div style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 60px;
+                height: 60px;
+                flex-shrink: 0;
+                background-color: #DBEAFE;
+                border-radius: 12px;
+                font-size: 30px;
+                line-height: 1;
+                font-weight: 600;
+                color: #2563EB;
+            ">
+                &lt;/&gt;
             </div>
             <div>
                 <h1 style="margin: 0; padding: 0; line-height: 1.2;">

@@ -14,7 +14,7 @@
     padding: 10px 12px 10px 16px;
     border: 1px solid var(--st-border-color);
     border-radius: 24px;
-    background: var(--st-background-color);
+    background: #FFFFFF;
     transition: border-color 150ms ease, box-shadow 150ms ease;
 }
 
@@ -102,7 +102,7 @@ button:focus-visible {
     padding: 6px;
     border: 1px solid var(--st-border-color);
     border-radius: 14px;
-    background: var(--st-background-color);
+    background: #FFFFFF;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 

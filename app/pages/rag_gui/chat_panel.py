@@ -5,7 +5,7 @@ and displays user and assistant messages through Streamlit.
 """
 
 import streamlit as st
-
+from groq import AuthenticationError
 from components.chat_composer import render_chat_composer
 from github_rag.prompt_engineering.prompt_builder import build_prompt
 from src_app.api_key_management import can_use_api_key
@@ -140,8 +140,28 @@ def render_chat_panel():
                 if not response:
                     response = "The LLM did not return a response."
 
+    except AuthenticationError as e:
+        # Handle expired or invalid API keys.
+        error_code = getattr(e, "code", None)
+
+        if error_code == "expired_api_key":
+            response = (
+                "Your API key has expired. Please enter a new API key "
+                "to continue using the AI assistant."
+            )
+        elif error_code == "invalid_request_error":
+            response = (
+                "Your API key is invalid. Please check your API key "
+                "to continue using the AI assistant."
+            )            
+        else:
+            response = (
+                "Authentication failed. Please check your API key "
+                "and enter a valid one."
+            )
+
     except RuntimeError as e:
-        # Handle known LLM service errors separately to provide actionable feedback.
+        # Handle known LLM service errors separately.
         if str(e) == "LLM_RATE_LIMIT":
             response = (
                 "The AI service has reached a usage limit. "
@@ -153,7 +173,6 @@ def render_chat_panel():
                 "can process. Please try a more specific question."
             )
         else:
-            # Use a generic fallback for other runtime errors.
             response = (
                 "An error occurred while processing your question. "
                 "Please check your API key and try again."
@@ -161,7 +180,6 @@ def render_chat_panel():
 
     except Exception:
         # Prevent unexpected processing errors from interrupting the chat flow.
-        # Return a user-friendly message without exposing internal error details.
         response = (
             "An error occurred while processing your question. "
             "Please check your API key and try again."

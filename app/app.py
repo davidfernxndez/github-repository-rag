@@ -6,6 +6,7 @@ import streamlit as st
 
 from pages.rag_gui import render_rag_gui
 from pages.loading_screen import render_loading_screen
+from pages.groq_api_key_guide import render_groq_api_key_guide
 from utils.resources import initialize_resources
 from styles.css_styles import load_custom_styles
 
@@ -80,13 +81,13 @@ def main():
             "label": "RAG Assistant",
             "icon": ":material/chat_bubble_outline:",
         },
-        "Groq API Key Guide": {
-            "label": "Groq API Key Guide",
-            "icon": ":material/key:",
-        },
         "Architecture & Design": {
             "label": "Architecture & Design",
             "icon": ":material/layers:",
+        },
+        "Groq API Key Guide": {
+            "label": "Groq API Key Guide",
+            "icon": ":material/key:",
         },
     }
 
@@ -164,15 +165,13 @@ def main():
     if st.session_state.section == "RAG Assistant":
         render_rag_gui(embedding_model)
 
-    elif st.session_state.section == "Groq API Key Guide":
-        # TODO: Replace the temporary placeholder with the API key guide.
-        # render_groq_api_guide()
-        print("Temporal Hello")
-
     elif st.session_state.section == "Architecture & Design":
         # TODO: Replace the temporary placeholder with the architecture page.
         # render_architecture_page()
         print("Temporal Hello")
+
+    elif st.session_state.section == "Groq API Key Guide":
+        render_groq_api_key_guide()
 
 
 if __name__ == "__main__":

@@ -1,16 +1,28 @@
 """
 Initialize and manage shared application resources.
 
-Caches the embedding model and default LLM generator to avoid unnecessary
-reinitialization. Initializes the session-specific LLM configuration and
-request counter when a new Streamlit session starts.
+Caches the embedding model, default LLM generator, and Groq tutorial
+images to avoid unnecessary reinitialization and disk reads.
+
+Initializes the session-specific LLM configuration and request counter
+when a new Streamlit session starts.
 """
 
 import streamlit as st
-
+from pathlib import Path
 from github_rag.embedding.embedding_model import create_embedding_model
 from src_app.api_key_management import load_default_llm_generator
 
+# --------------------------------------------------
+# Resource paths
+# --------------------------------------------------
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+GROQ_IMAGES_DIR = PROJECT_ROOT / "images" / "groq"
+
+# --------------------------------------------------
+# Cached shared resources
+# --------------------------------------------------
 
 @st.cache_resource
 def get_embedding_model():
@@ -29,6 +41,19 @@ def get_default_llm_generator():
     # on every script rerun or session initialization.
     return load_default_llm_generator()
 
+@st.cache_data
+def load_groq_image(image_name: str) -> bytes:
+    """Load and cache a Groq tutorial image."""
+
+    # Read the image from the project's images/groq directory.
+    image_path = GROQ_IMAGES_DIR / image_name
+
+    return image_path.read_bytes()
+
+
+# --------------------------------------------------
+# Session initialization
+# --------------------------------------------------
 
 def initialize_resources():
     """Initialize application resources and session state."""

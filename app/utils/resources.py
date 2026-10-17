@@ -19,6 +19,7 @@ from src_app.api_key_management import load_default_llm_generator
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 GROQ_IMAGES_DIR = PROJECT_ROOT / "images" / "groq"
+ARCHITECTURE_IMAGE_PATH = PROJECT_ROOT / "images" / "architecture_design.png"
 
 # --------------------------------------------------
 # Cached shared resources
@@ -50,6 +51,10 @@ def load_groq_image(image_name: str) -> bytes:
 
     return image_path.read_bytes()
 
+@st.cache_data
+def load_architecture_image() -> bytes:
+    """Load and cache the system architecture diagram."""
+    return ARCHITECTURE_IMAGE_PATH.read_bytes()
 
 # --------------------------------------------------
 # Session initialization

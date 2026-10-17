@@ -6,6 +6,7 @@ import streamlit as st
 
 from pages.rag_gui import render_rag_gui
 from pages.loading_screen import render_loading_screen
+from pages.architecture_design import render_architecture_design
 from pages.groq_api_key_guide import render_groq_api_key_guide
 from utils.resources import initialize_resources
 from styles.css_styles import load_custom_styles
@@ -166,13 +167,49 @@ def main():
         render_rag_gui(embedding_model)
 
     elif st.session_state.section == "Architecture & Design":
-        # TODO: Replace the temporary placeholder with the architecture page.
-        # render_architecture_page()
-        print("Temporal Hello")
+        render_architecture_design()
 
     elif st.session_state.section == "Groq API Key Guide":
         render_groq_api_key_guide()
 
+
+    # --------------------------------------------------
+    # Author information
+    # --------------------------------------------------
+
+    st.divider()
+    st.markdown(
+        """
+        <div style="display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-wrap: wrap;
+                    gap: 12px;
+                    font-size: 0.9rem;
+                    margin-top: -2px;
+                    text-align: center;">
+            <span style="display: flex;
+                        align-items: center;
+                        gap: 6px;
+                        font-weight: 600;">
+                <span style="font-size: 1rem;">👤</span>
+                David Fernández Martínez
+            </span>
+            <span style="opacity: 0.4;">·</span>
+            <a href="https://github.com/davidfernxndez"
+            target="_blank"
+            style="text-decoration: none;">
+                GitHub ↗
+            </a>
+            <a href="https://www.linkedin.com/"
+            target="_blank"
+            style="text-decoration: none;">
+                LinkedIn ↗
+            </a>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 if __name__ == "__main__":
     main()

@@ -1,8 +1,12 @@
-# GitHub Repository RAG Assistant
+<h1 align="center">GitHub Repository RAG Assistant</h1>
 
-**An adaptive Retrieval-Augmented Generation (RAG) system for exploring GitHub repositories through natural language queries, with source-grounded answers and file-level traceability.**
+<h2 align="center">
+  An adaptive Retrieval-Augmented Generation (RAG) system for exploring
+  GitHub repositories through natural language queries, with
+  source-grounded answers and file-level traceability.
+</h2>
 
-<p align="left">
+<p align="center">
   <img src="https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white" alt="Python 3.11"/>
   <img src="https://img.shields.io/badge/LangChain-RAG-1C3C3C?logo=langchain&logoColor=white" alt="LangChain"/>
   <img src="https://img.shields.io/badge/ChromaDB-Vector%20Store-5B4DBC" alt="ChromaDB"/>
@@ -13,13 +17,72 @@
   <img src="https://img.shields.io/badge/pytest-Testing-0A9EDC?logo=pytest&logoColor=white" alt="pytest"/>
 </p>
 
+<p align="center">
+  <img src="images/app_demo.gif" alt="Application Demo" width="800">
+</p>
+
+<p align="center">
+  <a href="https://repository-rag-assistant.streamlit.app/">
+    <img src="https://img.shields.io/badge/Try_the_Interactive_Application-24292F?style=for-the-badge&logo=streamlit&logoColor=white" alt="Interactive Application" width="400">
+  </a>
+</p>
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Project Structure](#project-structure)
+- [System Architecture](#system-architecture)
+- [Technical Design & Key Decisions](#technical-design--key-decisions)
+- [RAG Evaluation](#rag-evaluation)
+- [Try the Application](#try-the-application)
+- [Installation & Usage](#installation--usage)
+- [License](#license)
+
 ## Project Overview
 
-Understanding an unfamiliar codebase often requires navigating multiple files, tracing dependencies, and searching through source code and documentation to find relevant information. Traditional keyword-based search can be insufficient when questions involve concepts, implementation details, or relationships between components.
+Understanding an unfamiliar code repository often requires navigating multiple files, tracing dependencies, and connecting information scattered across source code and documentation. Traditional keyword-based search can fall short when questions involve conceptual relationships, implementation details, or interactions between components.
 
-**GitHub Repository RAG Assistant** addresses this challenge by combining semantic retrieval with Large Language Models (LLMs) to answer natural language questions about public GitHub repositories. Rather than relying exclusively on the model's internal knowledge, the system retrieves relevant repository content and uses it as contextual evidence for answer generation.
+**GitHub Repository RAG Assistant** addresses this challenge by combining semantic retrieval with Large Language Models (LLMs) to answer natural language questions about public GitHub repositories. By grounding LLM-generated responses in retrieved repository content, the system provides context-aware answers with references to relevant source files, improving traceability and helping users verify the information.
 
-The system features a **modular architecture** designed to facilitate maintainability and future extensions. Particular emphasis is placed on systematic evaluation, combining quantitative retrieval metrics, such as **Recall@k** and **Average Precision@k**, with **LLM-as-a-Judge** approach to assess the quality of generated responses and the overall effectiveness of the RAG pipeline.
+**Particular emphasis is placed on system quality evaluation**, combining quantitative retrieval metrics, including **Recall@k** and **Average Precision@k**, with an **LLM-as-a-Judge** approach to assess the quality of generated responses.
+
+The application is designed for deployment on **Streamlit Community Cloud**, providing a **publicly accessible and user-friendly interface** that enables users to explore repositories and interact with the assistant directly from their browser, with a focus on responsive, low-latency interactions.
+
+## Project Structure
+
+The project follows a **modular architecture** that separates the Streamlit application from the core RAG pipeline, evaluation resources, and automated tests. This separation promotes maintainability, facilitates testing, and supports the independent evolution of individual components.
+
+```text
+github-repository-rag/
+├── .streamlit/                 # Streamlit configuration
+├── app/                        # Streamlit application UI
+│   ├── components/             # Custom chat interface components
+│   ├── pages/                  # Application pages and RAG interface
+│   ├── src_app/                # Application-level logic
+│   ├── styles/                 # UI styling and icons
+│   ├── utils/                  # Shared resources and utilities
+│   └── app.py                  # Application entry point
+├── evaluation/                 # Ground-truth and evaluation datasets
+├── images/                     # Architecture diagrams, demo and guides
+├── notebooks/                  # Component walkthroughs and experiments
+├── src/
+│   └── github_rag/             # Core modular RAG implementation
+│       ├── ingestion/          # Repository ingestion
+│       ├── processing/         # File-specific preprocessing
+│       ├── chunking/           # Document chunking strategies
+│       ├── embedding/          # Embedding generation
+│       ├── vectordatabase/     # ChromaDB integration
+│       ├── retrieval/          # Adaptive retrieval
+│       ├── prompt_engineering/ # Prompt construction
+│       ├── LLM_generation/     # LLM inference
+│       └── evaluator/          # RAG evaluation
+├── tests/                      # Automated tests
+├── .env.example                # Environment variable template
+├── environment.yml             # Conda environment specification
+├── pyproject.toml              # Project and package configuration
+├── requirements.txt            # Streamlit dependencies
+└── README.md
+```
 
 ## System Architecture
 
@@ -117,6 +180,23 @@ The complete RAG pipeline is evaluated using *RAGAS* with an **LLM-as-a-judge** 
 | Answer Relevancy | **0.700 ± 0.207** |
 
 The results, analyzed in detail in [`10_RAG_evaluation.ipynb`](notebooks/10_RAG_evaluation.ipynb), suggest that generated answers are generally well grounded in the retrieved context, while answer relevance remains more variable. Manual inspection also highlights limitations of LLM-as-a-judge evaluation, particularly for open-ended queries where useful answers may receive lower relevance scores than expected.
+
+## Try the Application
+
+The interactive application can be accessed in two ways:
+
+- **Online:** Use the [publicly deployed application on Streamlit Community Cloud](https://repository-rag-assistant.streamlit.app/) to interact with the assistant directly from your browser.
+- **Locally:** From the **root directory of the repository**, launch the application using:
+  ```bash
+  streamlit run app/app.py
+  ```
+
+### How to Use
+
+1. Enter the URL of a public GitHub repository.
+2. Let the system ingest and index its contents.
+3. Ask natural language questions about the repository and inspect the source references provided with the generated answers.
+
 
 ## Installation & Usage
 

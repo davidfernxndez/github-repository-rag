@@ -211,13 +211,14 @@ def render_chat_panel():
             "Please check your API key and try again."
         )
 
-    # Persist the assistant's response so it remains available on subsequent reruns.
-    st.session_state.chat_history.append(
-        {"role": "assistant", "content": response}
-    )
-
     # Render the generated answer in the conversation container.
     formatted_response = clean_groq_markdown(response)
+
+    # Persist the assistant's response so it remains available on subsequent reruns.
+    st.session_state.chat_history.append(
+        {"role": "assistant", "content": formatted_response}
+    )
+
     with conversation:
         with st.chat_message("assistant"):
             st.markdown(formatted_response)
